@@ -23,8 +23,4 @@
 {{Form::submit('Salvar', ['class' => 'btn btn-primary'])}}
 <!-- -->
 {!! Form::close() !!}
-<script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
-<script>
-    CKEDITOR.replace('body');
-</script>
 @endsection

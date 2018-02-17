@@ -9,7 +9,7 @@
 </div>
 <hr />
 <small>
-    Criado em {{$post->created_at}}
+    Criado em {{$post->created_at}} por {{$post->user->name}}
 </small>
 <hr />
 <a href="/posts/{{$post->id}}/edit" class="btn btn-warning">

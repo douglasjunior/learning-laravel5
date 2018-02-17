@@ -10,7 +10,7 @@
             </h3>
         </a>
         <h6 class="card-subtitle mb-2 text-muted">
-            Criado em {{$post->created_at}}
+            Criado em {{$post->created_at}} por {{$post->user->name}}
         </h6>
     </div>
 </div>
