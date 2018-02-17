@@ -2,7 +2,7 @@
 @section('content')
 <h1>{{$post->title}} #{{$post->id}}</h1>
 <div>
-    {{$post->body}}
+    {!! $post->body !!}
 </div>
 <hr />
 <small>
