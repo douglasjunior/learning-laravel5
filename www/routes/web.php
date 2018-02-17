@@ -40,3 +40,7 @@ ob_get_clean(); throw $e;
 return ob_get_clean();
 });
  */
+
+Auth::routes();
+
+Route::get('/dashboard', 'DashboardController@index');
