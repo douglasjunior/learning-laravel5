@@ -9994,3 +9994,9 @@ a.text-dark:focus {
   }
 }
 
+.cover-image {
+  max-height: 600px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+

@@ -13,7 +13,7 @@
 <body>
     <div id="app">
     @include('includes.navbar')
-        <main class="container mt-3">
+        <main class="container my-3">
     @include('includes.messages') @yield('content')
         </main>
     </div>

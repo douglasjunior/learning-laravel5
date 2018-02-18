@@ -4,8 +4,8 @@
     Voltar
 </a>
 <h1>{{$post->title}} #{{$post->id}}</h1>
-<figure class="figure mt-1">
-    <img class="figure-img img-fluid rounded" src="/images/posts/cover_image/{{$post->id}}" alt="Imagem do post {{$post->title}}">
+<figure class="figure mt-1 w-100">
+    <img class="figure-img img-fluid w-100 cover-image rounded" src="/images/posts/cover_image/{{$post->id}}" alt="Imagem do post {{$post->title}}">
 </figure>
 <div class="mt-2 mb-3">
     {!! $post->body !!}

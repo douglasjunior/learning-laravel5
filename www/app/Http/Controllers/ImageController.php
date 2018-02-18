@@ -13,7 +13,8 @@ class ImageController extends Controller
     public function postCoverImage(Request $request, $postId)
     {
         $post = Post::findOrFail($postId);
-        return $this->show($request, 'cover_images/' . $post->cover_image);
+        $imageName = $post->cover_image ?: 'noimage.jpg';
+        return $this->show($request, 'cover_images/' . $imageName);
     }
 
     public function show(Request $request, $imageName)

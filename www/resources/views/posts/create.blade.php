@@ -3,7 +3,7 @@
 <!-- -->
 @if($post)
 <h1>Editar Post</h1>
-{!! Form::open(['action' => ['PostsController@update', $post->id], 'method' => 'PUT', 'files' => 'true']) !!}
+{!! Form::open(['action' => ['PostsController@update', $post->id], 'method' => 'PUT', 'files' => true]) !!}
 <!-- -->
 @else
 <h1>Criar Post</h1>
@@ -20,13 +20,18 @@
     <!-- -->
     {{Form::textarea('body', $post ? $post->body : '', ['class' => 'form-control', 'placeholder' => 'Conteúdo'])}}
 </div>
-@if(!$post)
 <div class="form-group">
     {{Form::label('cover_image', 'Imagem de capa')}}
     <!-- -->
+    @if($post)
+    <br />
+    <img class="img-thumbnail" style="width: 300px; height: 160px; object-fit: cover" src="/images/posts/cover_image/{{$post->id}}"
+        alt="Imagem do post {{$post->title}}">
+    <!-- -->
+    @endif
+    <!-- -->
     {{Form::file('cover_image', ['class' => 'form-control'])}}
 </div>
-@endif
 <!-- -->
 {{Form::submit('Salvar', ['class' => 'btn btn-primary'])}}
 <!-- -->

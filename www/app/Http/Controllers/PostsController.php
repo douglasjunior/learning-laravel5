@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PostsController extends Controller
 {
@@ -62,7 +63,7 @@ class PostsController extends Controller
             $coverImageName = $filename . '_' . time() . '.' . $extension;
             $path = $file->storeAs('public/cover_images', $coverImageName);
         } else {
-            $coverImageName = 'noimage.jpg';
+            $coverImageName = '';
         }
 
         $post = new Post;
@@ -116,9 +117,22 @@ class PostsController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'body' => 'required',
+            'cover_image' => 'image|nullable|max:1999',
         ]);
 
         $post = Post::findOrFail($id);
+
+        if ($request->hasFile('cover_image')) {
+            if ($post->cover_image) {
+                Storage::delete('public/cover_images/' . $post->cover_image);
+            }
+            $file = $request->file('cover_image');
+            $filenameWithExt = $file->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $file->getClientOriginalExtension();
+            $coverImageName = $filename . '_' . time() . '.' . $extension;
+            $path = $file->storeAs('public/cover_images', $coverImageName);
+        }
 
         if (!$this->checkOwnPost($post)) {
             return redirect('/posts')->with('error', 'Acesso negado.');
@@ -126,6 +140,9 @@ class PostsController extends Controller
 
         $post->title = $request->input('title');
         $post->body = $request->input('body');
+        if ($coverImageName) {
+            $post->cover_image = $coverImageName;
+        }
         $post->save();
 
         return redirect('/posts/' . $id)->with('success', 'Post editado com sucesso.');
