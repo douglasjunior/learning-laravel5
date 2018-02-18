@@ -162,7 +162,11 @@ class PostsController extends Controller
             return redirect('/posts')->with('error', 'Acesso negado.');
         }
 
-        $post->delete();
+        if ($post->delete()) {
+            if ($post->cover_image) {
+                Storage::delete('public/cover_images/' . $post->cover_image);
+            }
+        }
 
         return redirect('/posts')->with('success', 'Post removido com sucesso.');
     }
