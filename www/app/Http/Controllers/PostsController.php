@@ -7,6 +7,17 @@ use Illuminate\Http\Request;
 
 class PostsController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth', [
+            'except' => [
+                'index',
+                'show',
+            ],
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -40,11 +51,24 @@ class PostsController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'body' => 'required',
+            'cover_image' => 'image|nullable|max:1999',
         ]);
+
+        if ($request->hasFile('cover_image')) {
+            $file = $request->file('cover_image');
+            $filenameWithExt = $file->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $file->getClientOriginalExtension();
+            $coverImageName = $filename . '_' . time() . '.' . $extension;
+            $path = $file->storeAs('public/cover_images', $coverImageName);
+        } else {
+            $coverImageName = 'noimage.jpg';
+        }
 
         $post = new Post;
         $post->title = $request->input('title');
         $post->body = $request->input('body');
+        $post->cover_image = $coverImageName;
         $post->user_id = auth()->user()->id;
         $post->save();
 
@@ -72,6 +96,11 @@ class PostsController extends Controller
     public function edit($id)
     {
         $post = Post::findOrFail($id);
+
+        if (!$this->checkOwnPost($post)) {
+            return redirect('/posts')->with('error', 'Acesso negado.');
+        }
+
         return view('posts.create')->with('post', $post);
     }
 
@@ -90,6 +119,11 @@ class PostsController extends Controller
         ]);
 
         $post = Post::findOrFail($id);
+
+        if (!$this->checkOwnPost($post)) {
+            return redirect('/posts')->with('error', 'Acesso negado.');
+        }
+
         $post->title = $request->input('title');
         $post->body = $request->input('body');
         $post->save();
@@ -106,8 +140,18 @@ class PostsController extends Controller
     public function destroy($id)
     {
         $post = Post::findOrFail($id);
+
+        if (!$this->checkOwnPost($post)) {
+            return redirect('/posts')->with('error', 'Acesso negado.');
+        }
+
         $post->delete();
 
         return redirect('/posts')->with('success', 'Post removido com sucesso.');
+    }
+
+    public function checkOwnPost($post)
+    {
+        return $post->user_id === auth()->user()->id;
     }
 }

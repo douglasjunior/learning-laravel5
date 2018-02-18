@@ -44,3 +44,5 @@ return ob_get_clean();
 Auth::routes();
 
 Route::get('/dashboard', 'DashboardController@index');
+
+Route::get('/images/posts/cover_image/{postId}', 'ImageController@postCoverImage');

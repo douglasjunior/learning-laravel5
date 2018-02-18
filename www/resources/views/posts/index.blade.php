@@ -3,6 +3,9 @@
 <h1>Posts</h1>
 @if (count($posts) > 0) @foreach($posts as $post)
 <div class="card mb-3">
+    <a href="/posts/{{$post->id}}">
+        <img class="card-img-top" src="/images/posts/cover_image/{{$post->id}}" alt="Imagem do post {{$post->title}}">
+    </a>
     <div class="card-body">
         <a href="/posts/{{$post->id}}">
             <h3 class="card-title">
