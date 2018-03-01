@@ -25,7 +25,7 @@
     <!-- -->
     @if($post)
     <br />
-    <img class="img-thumbnail" style="width: 300px; height: 160px; object-fit: cover" src="/images/posts/cover_image/{{$post->id}}"
+    <img class="img-thumbnail" style="width: 300px; height: 160px; object-fit: cover" src="/storage/cover_images/{{$post->cover_image ?: 'noimage.jpg'}}"
         alt="Imagem do post {{$post->title}}">
     <!-- -->
     @endif

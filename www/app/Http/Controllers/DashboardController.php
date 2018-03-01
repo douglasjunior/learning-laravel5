@@ -25,6 +25,7 @@ class DashboardController extends Controller
     {
         $user_id = auth()->user()->id;
         $user = User::findOrFail($user_id);
-        return view('dashboard')->with('posts', $user->posts()->paginate(10));
+        return view('dashboard')->with('posts', $user->posts()->
+                orderBy('created_at', 'desc')->paginate(10));
     }
 }

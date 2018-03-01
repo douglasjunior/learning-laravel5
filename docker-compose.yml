@@ -19,11 +19,13 @@ services:
   php:
     build: .
     working_dir: /var/www
+    container_name: php
     volumes_from:
       - code
 
   mysql:
     image: mysql
+    container_name: mysql
     ports:
       - "33061:3306"
       - "3306:3306"
@@ -34,6 +36,7 @@ services:
 
   code:
     image: busybox
+    container_name: code
     volumes:
       - ./www:/var/www
 
